@@ -288,6 +288,8 @@ main {
     align-items: center;
     padding: 10px;
     padding-top: 20px;
+    background-image: none;
+    background-color: #0f172a;
   }
 
   .container__login {
