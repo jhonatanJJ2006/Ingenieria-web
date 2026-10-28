@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase 02</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="#" class="logo">
+          <img src="img/freepik.svg" alt="logo" />
+        </a>
+        <div class="menu">
+          <a href="#">Inicio</a>
+          <a href="#">Portafolio</a>
+          <a href="#">Contactos</a>
+          <div class="registro">
+            <a href="#">Registro</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="hero">
+          <div class="slider">
+            <input type="radio" name="hero-slide" id="hero-1" checked />
+            <input type="radio" name="hero-slide" id="hero-2" />
+            <input type="radio" name="hero-slide" id="hero-3" />
+
+            <div class="slider-viewport">
+              <div class="slider-track">
+                <div class="slide"></div>
+                <div class="slide"></div>
+                <div class="slide"></div>
+              </div>
+            </div>
+
+            <span class="slider-arrow slider-arrow--prev" aria-hidden="true"
+              >‹</span
+            >
+            <span class="slider-arrow slider-arrow--next" aria-hidden="true"
+              >›</span
+            >
+
+            <div class="slider-dots">
+              <label for="hero-1"></label>
+              <label for="hero-2"></label>
+              <label for="hero-3"></label>
+            </div>
+          </div>
+        </div>
+        <section>
+          <article>Articulo 1</article>
+          <article>Articulo 2</article>
+          <article>Articulo 3</article>
+        </section>
+      </div>
+    </main>
+    <footer>Footer</footer>
+  </body>
+</html>

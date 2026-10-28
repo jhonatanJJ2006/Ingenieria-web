@@ -1,0 +1,197 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  font-family: "Open Sans", sans-serif;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+    url("../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  backdrop-filter: blur(12px);
+}
+
+/* Login */
+.container__login {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.login__title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #090b0f;
+  text-transform: uppercase;
+  font-family: "Kanit", sans-serif;
+}
+
+.form__login {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 280px;
+}
+
+.form__login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form__login-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.form__login-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form__login-icon {
+  display: flex;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.form__login-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.form__login-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: "Open Sans", sans-serif;
+  color: #090b0f;
+  background: transparent;
+}
+
+.form__login-input::placeholder {
+  color: #9ca3af;
+}
+
+.form__login-input--password {
+  padding-right: 4px;
+}
+
+.form__login-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 6px;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form__login-toggle:hover {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.08);
+}
+
+.form__login-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.form__login-remember-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form__login-remember-input {
+  accent-color: black;
+}
+
+.form__login-remember-label {
+  font-size: 12px;
+}
+
+/* links */
+.form__login-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.form__login-link {
+  text-align: center;
+  text-decoration: none;
+  color: rgb(30, 29, 29);
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.8s ease;
+}
+
+.form__login-separator-line {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: black;
+  flex-shrink: 0;
+}
+
+/* Button */
+.form__login-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  border: 1px solid black;
+  transition: all 0.2s ease-in-out;
+}
+
+.form__login-button:hover {
+  border: 1px solid white;
+  border-radius: 8px;
+}
+
+.form__login-link {
+  text-align: center;
+  text-decoration: none;
+  color: rgb(30, 29, 29);
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.8s ease;
+}
+
+.form__login-link:hover {
+  text-decoration: underline;
+}
