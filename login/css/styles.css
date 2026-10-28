@@ -285,7 +285,7 @@ main {
 /* ≤ 400px — móvil pequeño */
 @media (max-width: 400px) {
   main {
-    align-items: flex-start;
+    align-items: center;
     padding: 10px;
     padding-top: 20px;
   }
