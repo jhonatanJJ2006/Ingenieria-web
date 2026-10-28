@@ -179,6 +179,7 @@ main {
 .form__login-remember-container {
   display: flex;
   align-items: center;
+  margin-top: 10px;
   gap: 6px;
 }
 
