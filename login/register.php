@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../php/db/roles.php';
+require_once __DIR__ . '/../php/clases/roles.php';
 
 function e(string $value): string
 {
@@ -27,7 +27,7 @@ $roles = roles_catalogo();
     <main>
       <section class="container__login">
         <h1 class="login__title">Crear cuenta</h1>
-        <form action="/utpl/php/register.php" method="post" class="form__login">
+        <form action="/utpl/php/views/register/register.php" method="post" class="form__login">
           <div class="form__login-container">
             <label for="nombre" class="form__login-label">Nombre</label>
             <div class="form__login-field">
@@ -138,7 +138,7 @@ $roles = roles_catalogo();
           <input type="hidden" name="submit" value="1" />
           <button type="submit" class="form__login-button">Registrarse</button>
           <div class="form__login-separator">
-            <a href="/utpl/php/login.php" class="form__login-link">¿Ya tienes cuenta? Login</a>
+            <a href="/utpl/php/views/login/login.php" class="form__login-link">¿Ya tienes cuenta? Login</a>
           </div>
         </form>
       </section>

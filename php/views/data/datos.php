@@ -1,25 +1,33 @@
 <?php
 
-require_once __DIR__ . '/db/usuario.php';
+session_start();
+require_once __DIR__ . '/../../clases/usuario.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /utpl/login/register.php');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['email'])) {
+    header('Location: /utpl/php/views/login/login.php');
     exit;
 }
 
-$nombre = $_POST['nombre'] ?? '';
 $email = $_POST['email'] ?? '';
 $passwordPlano = $_POST['password'] ?? '';
-$rol = $_POST['rol'] ?? 'usuario';
 
-$resultado = usuario_registrar($nombre, $email, $passwordPlano, $rol);
+$resultado = usuario_verificar_login($email, $passwordPlano);
+
+if ($resultado['ok']) {
+    session_regenerate_id(true);
+    $_SESSION['usuario'] = $resultado['usuario'];
+    $destino = $resultado['usuario']['rol'] === 'admin'
+        ? '/utpl/php/views/admin/index.php'
+        : '/utpl/php/views/users/usuarios.php';
+    header('Location: ' . $destino);
+    exit;
+}
 
 function e(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
-$exito = $resultado['ok'];
 $mensaje = $resultado['mensaje'];
 ?>
 <!DOCTYPE html>
@@ -28,7 +36,7 @@ $mensaje = $resultado['mensaje'];
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro</title>
+    <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -40,18 +48,12 @@ $mensaje = $resultado['mensaje'];
 <body>
     <main>
         <section class="container__login">
-            <h1 class="login__title">Registro</h1>
+            <h1 class="login__title">Login</h1>
             <div class="form__login form__login-result">
-                <p class="form__login-db-msg<?= $exito ? ' form__login-db-msg--ok' : ' form__login-db-msg--error' ?>">
-                    <?= e($mensaje) ?>
-                </p>
+                <p class="form__login-db-msg form__login-db-msg--error"><?= e($mensaje) ?></p>
                 <div class="form__login-result-actions form__login-separator">
-                    <?php if ($exito) : ?>
-                        <a href="/utpl/php/login.php" class="form__login-link">Ir al login</a>
-                    <?php else : ?>
-                        <a href="/utpl/login/register.php" class="form__login-link">Intentar de nuevo</a>
-                        <a href="/utpl/php/login.php" class="form__login-link">Ir al login</a>
-                    <?php endif; ?>
+                    <a href="/utpl/php/views/login/login.php" class="form__login-link">Volver al login</a>
+                    <a href="/utpl/login/register.php" class="form__login-link">Crear cuenta</a>
                 </div>
             </div>
         </section>

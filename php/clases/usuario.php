@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/../db/conexion.php';
 require_once __DIR__ . '/roles.php';
 
 function usuario_hash_password(string $passwordPlano): string
@@ -74,7 +74,7 @@ function usuario_registrar(string $nombre, string $email, string $passwordPlano,
 }
 
 /**
- * @return array{ok: bool, mensaje: string}
+ * @return array{ok: bool, mensaje: string, usuario?: array{id: int, nombre: string, email: string, rol: string}}
  */
 function usuario_verificar_login(string $email, string $passwordPlano): array
 {
@@ -90,7 +90,7 @@ function usuario_verificar_login(string $email, string $passwordPlano): array
 
     try {
         $pdo = db_conectar();
-        $stmt = $pdo->prepare('SELECT id, password FROM user WHERE email = :email LIMIT 1');
+        $stmt = $pdo->prepare('SELECT id, nombre, email, rol, password FROM user WHERE email = :email LIMIT 1');
         $stmt->execute([':email' => $email]);
         $fila = $stmt->fetch();
 
@@ -102,7 +102,16 @@ function usuario_verificar_login(string $email, string $passwordPlano): array
             return ['ok' => false, 'mensaje' => 'Contraseña incorrecta.'];
         }
 
-        return ['ok' => true, 'mensaje' => 'Inicio de sesión correcto.'];
+        return [
+            'ok' => true,
+            'mensaje' => 'Inicio de sesión correcto.',
+            'usuario' => [
+                'id' => (int) $fila['id'],
+                'nombre' => $fila['nombre'],
+                'email' => $fila['email'],
+                'rol' => strtolower($fila['rol']),
+            ],
+        ];
     } catch (PDOException) {
         return [
             'ok' => false,

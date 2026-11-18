@@ -16,7 +16,7 @@
     <main>
       <section class="container__login">
         <h1 class="login__title">Login APP</h1>
-        <form action="/utpl/php/datos.php" method="post" class="form__login">
+        <form action="/utpl/php/views/data/datos.php" method="post" class="form__login">
           <div class="form__login-container">
             <label for="email" class="form__login-label">Email</label>
             <div class="form__login-field">
