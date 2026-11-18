@@ -84,6 +84,13 @@
   border-color: rgba(251, 113, 133, 0.5);
 }
 
+button.admin__nav-link {
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .admin__nav-link:hover {
   color: #f9fafb;
   background: rgba(255, 255, 255, 0.08);

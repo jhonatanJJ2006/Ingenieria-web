@@ -26,6 +26,18 @@ $id = (int) ($_POST['id'] ?? 0);
 $esUnoMismo = $id === $_SESSION['usuario']['id'];
 
 switch ($_POST['accion'] ?? '') {
+    case 'registrar':
+        $resultado = usuario_registrar(
+            (string) ($_POST['nombre'] ?? ''),
+            (string) ($_POST['email'] ?? ''),
+            (string) ($_POST['password'] ?? ''),
+            (string) ($_POST['rol'] ?? '')
+        );
+        if ($resultado['ok']) {
+            $resultado['mensaje'] = 'Usuario registrado correctamente.';
+        }
+        break;
+
     case 'editar':
         $rol = (string) ($_POST['rol'] ?? '');
         $activo = isset($_POST['activo']);

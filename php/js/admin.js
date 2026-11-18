@@ -1,12 +1,18 @@
 // Modales del panel admin: rellena el formulario con los data-* de la fila y abre el <dialog>.
 const modalEditar = document.getElementById("modal-editar");
 const modalEliminar = document.getElementById("modal-eliminar");
+const modalRegistrar = document.getElementById("modal-registrar");
 
 document.addEventListener("click", (evento) => {
   const boton = evento.target.closest("[data-accion]");
   if (!boton) return;
 
   const datos = boton.dataset;
+
+  if (datos.accion === "registrar") {
+    modalRegistrar.querySelector("form").reset();
+    modalRegistrar.showModal();
+  }
 
   if (datos.accion === "editar") {
     const form = modalEditar.querySelector("form");
@@ -27,7 +33,7 @@ document.addEventListener("click", (evento) => {
   }
 });
 
-for (const modal of [modalEditar, modalEliminar]) {
+for (const modal of [modalEditar, modalEliminar, modalRegistrar]) {
   // Botón "Cancelar".
   modal.querySelectorAll("[data-cerrar]").forEach((btn) =>
     btn.addEventListener("click", () => modal.close())

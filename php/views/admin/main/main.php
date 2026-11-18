@@ -24,6 +24,40 @@ unset($_SESSION['flash']);
     <?php require __DIR__ . '/../../users/tabla.php'; ?>
 </main>
 
+<dialog class="modal" id="modal-registrar" aria-labelledby="modal-registrar-titulo">
+    <form method="post" action="/utpl/php/views/data/usuario_accion.php" class="modal__form">
+        <h2 class="modal__title" id="modal-registrar-titulo">Registrar usuario</h2>
+        <input type="hidden" name="accion" value="registrar" />
+        <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>" />
+
+        <label class="modal__field">
+            <span>Nombre</span>
+            <input type="text" name="nombre" maxlength="100" required />
+        </label>
+        <label class="modal__field">
+            <span>Email</span>
+            <input type="email" name="email" maxlength="150" required />
+        </label>
+        <label class="modal__field">
+            <span>Contraseña</span>
+            <input type="password" name="password" autocomplete="new-password" required />
+        </label>
+        <label class="modal__field">
+            <span>Rol</span>
+            <select name="rol" required>
+                <?php foreach (roles_catalogo() as $valor => $etiqueta) : ?>
+                    <option value="<?= e($valor) ?>" <?= $valor === 'usuario' ? 'selected' : '' ?>><?= e($etiqueta) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+
+        <div class="modal__actions">
+            <button type="button" class="modal__btn" data-cerrar>Cancelar</button>
+            <button type="submit" class="modal__btn modal__btn--primary">Registrar</button>
+        </div>
+    </form>
+</dialog>
+
 <dialog class="modal" id="modal-editar" aria-labelledby="modal-editar-titulo">
     <form method="post" action="/utpl/php/views/data/usuario_accion.php" class="modal__form">
         <h2 class="modal__title" id="modal-editar-titulo">Editar usuario</h2>

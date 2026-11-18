@@ -5,10 +5,10 @@
             <i data-lucide="users" aria-hidden="true"></i>
             <span>Usuarios</span>
         </a>
-        <a href="/utpl/login/register.php" class="admin__nav-link">
+        <button type="button" class="admin__nav-link" data-accion="registrar">
             <i data-lucide="user-plus" aria-hidden="true"></i>
             <span>Registrar usuario</span>
-        </a>
+        </button>
     </div>
     <div class="admin__nav-logout">
         <a href="/utpl/php/views/data/logout.php" class="admin__logout">
