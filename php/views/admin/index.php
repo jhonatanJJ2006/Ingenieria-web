@@ -16,6 +16,7 @@ function e(string $value): string
 }
 
 $admin = $_SESSION['usuario'];
+$_SESSION['csrf'] ??= bin2hex(random_bytes(32));
 ?>
 <!doctype html>
 <html lang="es">
@@ -39,6 +40,7 @@ $admin = $_SESSION['usuario'];
     <?php require __DIR__ . '/main/main.php'; ?>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
+    <script src="/utpl/php/js/admin.js"></script>
 </body>
 
 </html>

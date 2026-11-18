@@ -8,17 +8,19 @@ function usuario_hash_password(string $passwordPlano): string
     return md5($passwordPlano);
 }
 
-function usuario_existe_nombre_o_email(string $nombre, string $email): bool
+/** $excluirId: id que no cuenta como duplicado (el propio usuario al editar). */
+function usuario_existe_nombre_o_email(string $nombre, string $email, int $excluirId = 0): bool
 {
     $pdo = db_conectar();
     $stmt = $pdo->prepare(
         'SELECT id FROM user
-         WHERE email = :email OR LOWER(nombre) = LOWER(:nombre)
+         WHERE (email = :email OR LOWER(nombre) = LOWER(:nombre)) AND id <> :excluir
          LIMIT 1'
     );
     $stmt->execute([
         ':email' => $email,
         ':nombre' => $nombre,
+        ':excluir' => $excluirId,
     ]);
 
     return (bool) $stmt->fetch();
@@ -137,5 +139,89 @@ function usuario_all(): array
             'ok' => false,
             'mensaje' => 'No se pudo obtener los usuarios.',
         ];
+    }
+}
+
+/**
+ * Edita los datos de un usuario (no la contraseña). Edad y teléfono vacíos se guardan como NULL.
+ *
+ * @return array{ok: bool, mensaje: string}
+ */
+function usuario_actualizar(int $id, string $nombre, string $email, string $rol, string $edad, string $telefono, bool $activo): array
+{
+    $nombre = trim($nombre);
+    $email = trim(strtolower($email));
+    $rol = strtolower(trim($rol));
+    $edad = trim($edad);
+    $telefono = trim($telefono);
+
+    if ($id <= 0) {
+        return ['ok' => false, 'mensaje' => 'Usuario no válido.'];
+    }
+
+    if ($nombre === '' || mb_strlen($nombre) > 100) {
+        return ['ok' => false, 'mensaje' => 'El nombre es obligatorio (máx. 100 caracteres).'];
+    }
+
+    if ($email === '' || mb_strlen($email) > 150 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return ['ok' => false, 'mensaje' => 'El correo no es válido.'];
+    }
+
+    if (!in_array($rol, roles_valores_permitidos(), true)) {
+        return ['ok' => false, 'mensaje' => 'El rol seleccionado no es válido.'];
+    }
+
+    if ($edad !== '' && filter_var($edad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 120]]) === false) {
+        return ['ok' => false, 'mensaje' => 'La edad debe ser un número entre 1 y 120.'];
+    }
+
+    if ($telefono !== '' && !preg_match('/^[0-9+\-\s()]{6,20}$/', $telefono)) {
+        return ['ok' => false, 'mensaje' => 'El teléfono no es válido (6 a 20 dígitos, +, -, espacios o paréntesis).'];
+    }
+
+    try {
+        if (usuario_existe_nombre_o_email($nombre, $email, $id)) {
+            return ['ok' => false, 'mensaje' => 'El nombre o el correo ya están en uso por otro usuario.'];
+        }
+
+        $stmt = db_conectar()->prepare(
+            'UPDATE user
+             SET nombre = :nombre, email = :email, rol = :rol, edad = :edad, telefono = :telefono, activo = :activo
+             WHERE id = :id'
+        );
+        $stmt->execute([
+            ':nombre' => $nombre,
+            ':email' => $email,
+            ':rol' => $rol,
+            ':edad' => $edad === '' ? null : (int) $edad,
+            ':telefono' => $telefono === '' ? null : $telefono,
+            ':activo' => $activo ? 1 : 0,
+            ':id' => $id,
+        ]);
+
+        return ['ok' => true, 'mensaje' => 'Usuario actualizado correctamente.'];
+    } catch (PDOException) {
+        return ['ok' => false, 'mensaje' => 'No se pudo actualizar el usuario. Revisa que MySQL esté activo.'];
+    }
+}
+
+/**
+ * @return array{ok: bool, mensaje: string}
+ */
+function usuario_eliminar(int $id): array
+{
+    if ($id <= 0) {
+        return ['ok' => false, 'mensaje' => 'Usuario no válido.'];
+    }
+
+    try {
+        $stmt = db_conectar()->prepare('DELETE FROM user WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+
+        return $stmt->rowCount() === 1
+            ? ['ok' => true, 'mensaje' => 'Usuario eliminado correctamente.']
+            : ['ok' => false, 'mensaje' => 'El usuario ya no existe.'];
+    } catch (PDOException) {
+        return ['ok' => false, 'mensaje' => 'No se pudo eliminar el usuario. Revisa que MySQL esté activo.'];
     }
 }
