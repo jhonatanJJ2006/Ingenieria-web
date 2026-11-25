@@ -8,6 +8,19 @@ function usuario_hash_password(string $passwordPlano): string
     return md5($passwordPlano);
 }
 
+/** GETS Y SETS */
+
+function usuario_get_cedula(string $cedula): array|false
+{
+    $stmt = db_conectar()->prepare('SELECT * FROM registro WHERE cedula = :cedula LIMIT 1');
+    $stmt->execute([':cedula' => trim($cedula)]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+/** 
+ * @return array{ok: bool, mensaje: string}
+ */
+
 /** $excluirId: id que no cuenta como duplicado (el propio usuario al editar). */
 function usuario_existe_nombre_o_email(string $nombre, string $email, int $excluirId = 0): bool
 {
